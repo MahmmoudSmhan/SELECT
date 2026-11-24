@@ -349,6 +349,19 @@
     </div>
 
     <script>
+
+        // Accept local Egyptian mobiles and international numbers without changing the destination.
+        function normalizeWhatsAppNumber(value) {
+            let number = String(value || '').trim()
+                .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+                .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+                .replace(/[\s()+.-]/g, '');
+            if (number.startsWith('00')) number = number.slice(2);
+            if (/^01[0125]\d{8}$/.test(number)) number = '2' + number;
+            if (/^2001[0125]\d{8}$/.test(number)) number = '20' + number.slice(3);
+            if (!/^[1-9]\d{7,14}$/.test(number)) return '';
+            return number;
+        }
         const SUPABASE_URL = 'https://icmvrjmkcyjuoxekvvfw.supabase.co'; 
         const SUPABASE_KEY = 'sb_publishable_M05JYZ9LKlIfeDjuCJqzxQ_Ay6EbRKj';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -462,6 +475,7 @@
         async function fetchSettings() {
             const { data: settings } = await supabaseClient.from('settings').select('*').eq('id', 1).single();
             if (settings) {
+                settings.whatsapp_number = normalizeWhatsAppNumber(settings.whatsapp_number);
                 settingsData = settings;
                 dynamicTexts = settings; 
                 
@@ -515,7 +529,9 @@
                 if(settings.hero_image) document.getElementById('hero-bg').style.backgroundImage = `url('${settings.hero_image}')`;
                 
                 const waBtn = document.getElementById('whatsapp-btn');
-                if(settings.whatsapp_number) { waBtn.href = `https://wa.me/${settings.whatsapp_number}`; waBtn.classList.remove('hidden'); }
+                waBtn.classList.toggle('hidden', !settings.whatsapp_number);
+                if (settings.whatsapp_number) waBtn.href = `https://wa.me/${settings.whatsapp_number}`;
+                else waBtn.removeAttribute('href');
 
                 const socialDiv = document.getElementById('social-links'); socialDiv.innerHTML = '';
                 if(settings.facebook_url) socialDiv.innerHTML += `<a href="${settings.facebook_url}" target="_blank" class="hover:text-brandGold transition"><i class="fa-brands fa-facebook"></i></a>`;
@@ -661,7 +677,7 @@
 
                 let waHTML = '';
                 if (settingsData.show_wa_order && settingsData.whatsapp_number) {
-                    const waText = encodeURIComponent(`${settingsData.wa_order_text || 'أريد طلب: '} ${product.name} - ${window.location.origin}/#product=${product.id}`);
+                    const waText = encodeURIComponent(`${settingsData.wa_order_text || 'أريد طلب: '} ${product.name} - ${window.location.origin}${window.location.pathname}#product=${product.id}`);
                     waHTML = `<a href="https://wa.me/${settingsData.whatsapp_number}?text=${waText}" target="_blank" class="absolute top-2 left-2 bg-white/90 p-2 rounded-full text-[#25D366] hover:bg-[#25D366] hover:text-white transition shadow z-20"><i class="fa-brands fa-whatsapp text-sm"></i></a>`;
                 }
 
