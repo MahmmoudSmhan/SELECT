@@ -1,0 +1,24 @@
+/* No fetch handler: private dashboard pages and customer responses are never cached. */
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', event => event.waitUntil(self.clients.claim()));
+self.addEventListener('push', event => {
+    // Deliberately ignore payload fields: never show customer data on a lock screen.
+    event.waitUntil(self.registration.showNotification('SELECT: طلب جديد', {
+        body: 'يوجد طلب جديد. افتح لوحة الإدارة لمراجعته.',
+        icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFM0lEQVR4nO3aUUhTbRzH8TPNqak52nAxQQQRU4mhu/Bi0rSMlFIUEbwIkXZRlnklgl4YxJhERIETLXZXd6WDLBIciE68FASZCikiaKgbGqzc0tx7Iew9LLOjTs+M7+dqz9nznOe37c85O885ggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCPU6vVra2tTqfz69evfr9/a2trZWXF7XY7nc6XL1+azebs7OywIXa7PSiBzWb705Dy8vK/BjvCLGGSk5PNZvPbt29nZmY8Hs/29rbP51tYWPj06VN7e3tubu5et8XFRSkTifX19R3py/7n3Lp1y+PxHPYXiv4Cio2N7ejo2NjYOHhsY2OjcDYL6Jy80+8xGAwDAwNKpVLuIBF24cKFDx8+mEymv/ZMTk4+hTwnIUbuAIIgCBaLJVQ9379/f/DgQUZGRkJCgkajuXr1aldX18rKipT9VFRUKPbT3NwcwbQSZ4mLi+vv7xdXz48fP6xWq16vT0pKSklJyc/Pb2lpmZmZCXXIzMwM22dPT494nzU1NWEd7t+/H8GPdgTyH4GUSuW1a9dCTYvF0tvbu/c6EAi4XC6Xy9XZ2Xn37t20tDSZMh5Fc3NzWVlZqOn1eq9fvz41NRXa4na73W63zWYzm82BQECOjBEgfwGlpaWJT15LS0u/99nZ2Xn9+vUphjqu+Pj4jo4O8ZZ79+6JqyckGAza7fbTyhV58p/Cfv78KW62tLRotVq5wkSKyWTSaDSh5uzsbH9/v4x5To78BbS2tra8vBxqFhUVLS4uDg4OtrW1lZWVqVQq6bv6/Pnzvpcq4t/y+KTMEvbHeWhoKIIBoor8BSQIQnd3t7iZkJBw+/btp0+fDg8Pe73eycnJ9vb2ixcvyhXvCHQ6nbg5NzcnV5KTFhUF9OzZszdv3uz7VkxMTEFBgdVqnZ+fr6ysPOVgRxZ24PT5fDIFOXFRUUC7u7sNDQ1VVVWjo6PBYHDfPiqV6t27d3l5eQfs508X2B6PJ4JppcyyubkpHnJ2l3n+KioKaM/g4GBJSYlWq62rq3v+/PnExMTOzo64Q3x8/MOHD+WKdyhhC1c5OTlyJTlpUVRAe9bX19+/f9/a2mo0Gi9duhR2iVtQUCBXsEMZHR0VN6XcMDmjoq6AxLxeb1NT09bWVmhLXFycjHmkGxsbE5/RLl++XFtbK2OekxMVBeR0Om/evKlQKH5/6/z58+KiEV/wRzO/39/V1SXe8urVK71e/3tPhUJhNpvv3LlzWtEiLCoKqLi4eGhoaH5+3mq1lpeX63Q6pVKpUqlMJtPHjx/Pnft/uXx4eFjGnIfS3d09MjISaqrV6omJCYvFcuXKlcTExKSkpLy8vEePHk1PT9vt9kMtdyGc3++X8ujCwsJCYmKieKDEBy2+fPlyykP2qFQql8slZeyfbvfabDZxt+rq6oh96RESFUcgKcsk09PTN27cEP8fin6bm5slJSWPHz/+9u3bwT3P7kKR/DdTBUHQ6XRGo9FoNBYWFmZlZaWnp6ekpMTGxvp8vuXl5ampKYfD4XA4wq7qz4Rfv349efLkxYsX9fX1paWlBoNBo9GkpqYGAoHV1dXZ2dnx8XGHwyF+qAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAMf0H/snX2EXm/1gAAAAASUVORK5CYII=',
+        badge: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAFM0lEQVR4nO3aUUhTbRzH8TPNqak52nAxQQQRU4mhu/Bi0rSMlFIUEbwIkXZRlnklgl4YxJhERIETLXZXd6WDLBIciE68FASZCikiaKgbGqzc0tx7Iew9LLOjTs+M7+dqz9nznOe37c85O885ggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPCPU6vVra2tTqfz69evfr9/a2trZWXF7XY7nc6XL1+azebs7OywIXa7PSiBzWb705Dy8vK/BjvCLGGSk5PNZvPbt29nZmY8Hs/29rbP51tYWPj06VN7e3tubu5et8XFRSkTifX19R3py/7n3Lp1y+PxHPYXiv4Cio2N7ejo2NjYOHhsY2OjcDYL6Jy80+8xGAwDAwNKpVLuIBF24cKFDx8+mEymv/ZMTk4+hTwnIUbuAIIgCBaLJVQ9379/f/DgQUZGRkJCgkajuXr1aldX18rKipT9VFRUKPbT3NwcwbQSZ4mLi+vv7xdXz48fP6xWq16vT0pKSklJyc/Pb2lpmZmZCXXIzMwM22dPT494nzU1NWEd7t+/H8GPdgTyH4GUSuW1a9dCTYvF0tvbu/c6EAi4XC6Xy9XZ2Xn37t20tDSZMh5Fc3NzWVlZqOn1eq9fvz41NRXa4na73W63zWYzm82BQECOjBEgfwGlpaWJT15LS0u/99nZ2Xn9+vUphjqu+Pj4jo4O8ZZ79+6JqyckGAza7fbTyhV58p/Cfv78KW62tLRotVq5wkSKyWTSaDSh5uzsbH9/v4x5To78BbS2tra8vBxqFhUVLS4uDg4OtrW1lZWVqVQq6bv6/Pnzvpcq4t/y+KTMEvbHeWhoKIIBoor8BSQIQnd3t7iZkJBw+/btp0+fDg8Pe73eycnJ9vb2ixcvyhXvCHQ6nbg5NzcnV5KTFhUF9OzZszdv3uz7VkxMTEFBgdVqnZ+fr6ysPOVgRxZ24PT5fDIFOXFRUUC7u7sNDQ1VVVWjo6PBYHDfPiqV6t27d3l5eQfs508X2B6PJ4JppcyyubkpHnJ2l3n+KioKaM/g4GBJSYlWq62rq3v+/PnExMTOzo64Q3x8/MOHD+WKdyhhC1c5OTlyJTlpUVRAe9bX19+/f9/a2mo0Gi9duhR2iVtQUCBXsEMZHR0VN6XcMDmjoq6AxLxeb1NT09bWVmhLXFycjHmkGxsbE5/RLl++XFtbK2OekxMVBeR0Om/evKlQKH5/6/z58+KiEV/wRzO/39/V1SXe8urVK71e/3tPhUJhNpvv3LlzWtEiLCoKqLi4eGhoaH5+3mq1lpeX63Q6pVKpUqlMJtPHjx/Pnft/uXx4eFjGnIfS3d09MjISaqrV6omJCYvFcuXKlcTExKSkpLy8vEePHk1PT9vt9kMtdyGc3++X8ujCwsJCYmKieKDEBy2+fPlyykP2qFQql8slZeyfbvfabDZxt+rq6oh96RESFUcgKcsk09PTN27cEP8fin6bm5slJSWPHz/+9u3bwT3P7kKR/DdTBUHQ6XRGo9FoNBYWFmZlZaWnp6ekpMTGxvp8vuXl5ampKYfD4XA4wq7qz4Rfv349efLkxYsX9fX1paWlBoNBo9GkpqYGAoHV1dXZ2dnx8XGHwyF+qAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAMf0H/snX2EXm/1gAAAAASUVORK5CYII=',
+        tag: 'select-new-order',
+        renotify: true,
+        data: { url: new URL('admin.html', self.registration.scope).href }
+    }));
+});
+self.addEventListener('notificationclick', event => {
+    event.notification.close();
+    const url = new URL('admin.html', self.registration.scope).href;
+    event.waitUntil((async () => {
+        const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+        const existing = windows.find(client => client.url.split('#')[0] === url);
+        if (existing) return existing.focus();
+        return self.clients.openWindow(url);
+    })());
+});
