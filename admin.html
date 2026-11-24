@@ -20,6 +20,13 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        #dashboard > main { min-width: 0; }
+        @media (max-width: 767px) {
+            #admin-sidebar { width: min(18rem, 88vw); }
+            #admin-sidebar.translate-x-full { transform: translateX(100%); visibility: hidden; }
+            #admin-sidebar.translate-x-0 { transform: translateX(0); visibility: visible; }
+            #dashboard input, #dashboard textarea, #dashboard select { min-width: 0; max-width: 100%; }
+        }
         #admin-toast { visibility: hidden; min-width: 300px; background-color: #0A0A0A; color: #C5A880; text-align: center; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-weight: bold; opacity: 0; transition: all 0.5s ease; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid #C5A880; }
         #admin-toast.show { visibility: visible; opacity: 1; bottom: 40px; }
 
@@ -29,6 +36,11 @@
         }
         .animate-badge { animation: pulse-red 2s infinite; }
     </style>
+<link rel="manifest" href="./admin.webmanifest">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SELECT Admin">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAEr0lEQVR4nO3ZT0jTbxzA8e9+uaHOy0zXxIUbDCxNxJyENmhdpDY6LAjqEsH05l2DFO1UEHoRggrSg3aoRYc1FniwbrVGtv5QNNqKpKbDPyQm89v8HYT9vizb1po+88f7dfLZ9/k8n4/bZ9/H76MkAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANujsbFxZGQkGAwuLi6ur68vLS1FIpFgMDg5OdnX13fy5Mm0+V6vdyMbWZYzhGQtKY8USvX19YODg1NTU58/f15ZWUkkEvF4/OnTp6Ojow6HY8+ePZIkRaPRrCmU4vF4Xu/ubtbf3y/L8h99BsXcHAaD4f79+8lkMkOg1+uVdk9zlAjJKkmS2+2+fPmyqOwFZ7VaHz58qNfrM0+rqKjYmXoK4h9RiS9dupT6+dWrVydOnKiuri4tLTWZTOfPn/f5fLl8y1VbKSkpZMfnkqKuri6tM2ZmZs6ePVtTU6PRaAwGw6lTp+7cufPz58/NqyaTKW3BN2/epGI/ffqUdrWqqqqAv1Gx279/v/K22dra+uucgwcPbt6Elf50j8gjJI8Ud+/eVYZ4PB6NRvPrtEOHDg0PD2+5wuvXr1Ph0Wg0l6T/W83Nzcp302Kx5BhYhM1hsViU8798+ZLH3lGczSFmW4nFYsrhzZs3m5qahFTy95xOp3J448aNlZUVUcUUlpjm+PbtWyAQSA3tdnsoFIpEIh6PZ2BgoLOzs6ysLJd1NrYyODhYwFKzpmhpaVHOf/z4cQGziyXsD9Kenp7V1VXlKyaT6fTp00NDQ48ePZqfn79165bRaBRVXu6qq6uVw9nZWVGVFJyw5nj27Fl7e/vvvmdardbtdr98+bL4txuVSiW6hO0i7JxDkqRQKGS32xsaGhwOx9GjR9va2mpra5UTKisrr1+/brPZfrfCDnwwWVPMzc0ph7W1teFweDsr2jnC7hwpb9++vXbtmsvlMhqNZrP54sWLP378SF3t6OjQ6XQCy8tqZmZGOTx27JigQgpPfHMoRaPRK1euXL16NfWKSqVK29SLTdphTHd3t1arFVVMYYlpDq1W6/f7jxw5suXVRCKhHC4sLOxIUXkKh8P37t1LDY1G4+3bt9Vq9a8zMxyC4T8VFRWbz4QvXrzo7e1tb2/fu3evWq2uqanp6ur6/v176qHx/fv3ysAiPASTJKmuri4WiymjgsHgmTNn9u3bp1ar9Xq90+mcmJiQZXl6enrLFYrzEEyMVHNkdeHCBWVgLv8y3djYsNvteYfkkUKSJKvVOjc3lzVqdzWHmG0lmUyura1lniPL8sDAwNjY2I5U9LeeP3/e3Nz84MGDjYw3m911eCrmUXZ1dbWysvL48eM2m+3w4cNms9lgMJSXlyeTyeXl5Q8fPjx58mR8fPzdu3dCysvP169fXS7XgQMHzp07Z7PZ6uvrdTqdRqNZXl7++PFjIBDw+Xx+v190mQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAkSdK/ZcF0Q4p3R1UAAAAASUVORK5CYII=">
 </head>
 <body class="h-screen overflow-hidden flex bg-[#F7F7F7]">
 
@@ -55,7 +67,7 @@
                     <img id="admin-sidebar-logo" src="" class="h-12 md:h-16 object-contain hidden drop-shadow-md admin-logo-fix" alt="Logo">
                     <h1 id="admin-sidebar-text" class="text-2xl md:text-3xl brand-english text-white tracking-widest">SELECT</h1>
                 </div>
-                <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-2xl"></i></button>
+                <button aria-label="إغلاق قائمة الإدارة" onclick="closeSidebarOnMobile()" class="md:hidden text-gray-400 hover:text-white text-2xl">×</button>
             </div>
             
             <div class="px-4 py-2 bg-gray-900 border-b border-gray-800">
@@ -87,13 +99,23 @@
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col h-full w-full overflow-hidden bg-[#F7F7F7]">
+        <main class="flex-1 min-w-0 flex flex-col h-full w-full overflow-hidden bg-[#F7F7F7]">
             <div class="md:hidden flex justify-between items-center bg-black text-white p-4 shrink-0 shadow-md z-30">
                 <div class="brand-english text-xl tracking-widest text-white">SELECT</div>
-                <button onclick="toggleSidebar()" class="text-2xl p-2 hover:bg-gray-800 rounded"><i class="fa-solid fa-bars"></i></button>
+                <button id="sidebar-toggle" aria-label="فتح قائمة الإدارة" aria-controls="admin-sidebar" aria-expanded="false" onclick="toggleSidebar()" class="text-2xl p-2 hover:bg-gray-800 rounded"><span aria-hidden="true">☰</span></button>
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 md:p-10">
+                <section class="bg-white border border-gray-200 rounded-lg p-4 mb-6 space-y-3" aria-label="تثبيت وإشعارات الإدارة">
+                    <h2 class="font-bold">SELECT على موبايلك</h2>
+                    <p class="text-sm text-gray-600">على آيفون: Safari ← مشاركة ← إضافة إلى الشاشة الرئيسية، ثم افتح الأيقونة وفعّل الإشعارات. يلزم iOS 16.4 أو أحدث. Android: ثبّت التطبيق من قائمة المتصفح.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="admin-install" hidden class="bg-gray-100 rounded px-4 py-3">تثبيت التطبيق</button>
+                        <button id="admin-push-enable" disabled class="bg-black text-white rounded px-4 py-3 disabled:opacity-50">تفعيل إشعارات هذا الجهاز</button>
+                        <button id="admin-push-disable" disabled class="border rounded px-4 py-3 disabled:opacity-50">إيقاف هذا الجهاز</button>
+                    </div>
+                    <p id="admin-push-status" role="status" aria-live="polite" class="text-sm text-gray-600">تنبيهات الخلفية تحتاج إعداد الخادم. التثبيت وحده لا يفعّل الإشعارات.</p>
+                </section>
                 <!-- 1. Overview -->
                 <div id="view-overview" class="view-section active">
                     <h2 class="text-2xl font-bold mb-6 md:mb-8">نظرة عامة</h2>
@@ -341,7 +363,7 @@
 
                         <div class="mt-12 pt-6 border-t border-red-200">
                             <h3 class="font-bold text-sm text-red-600 mb-2">منطقة الخطر</h3>
-                            <button onclick="deleteAllData()" class="bg-red-600 text-white px-6 py-2.5 text-sm font-bold hover:bg-red-700 transition shadow-md w-full md:w-auto rounded"><i class="fa-solid fa-trash mr-2"></i> مسح كل البيانات</button>
+                            <button onclick="deleteAllData(event)" class="bg-red-600 text-white px-6 py-2.5 text-sm font-bold hover:bg-red-700 transition shadow-md w-full md:w-auto rounded"><i class="fa-solid fa-trash mr-2"></i> مسح كل البيانات</button>
                         </div>
                     </div>
                 </div>
@@ -405,6 +427,19 @@
     </div>
 
     <script>
+
+        // Accept local Egyptian mobiles and international numbers without changing the destination.
+        function normalizeWhatsAppNumber(value) {
+            let number = String(value || '').trim()
+                .replace(/[٠-٩]/g, digit => String('٠١٢٣٤٥٦٧٨٩'.indexOf(digit)))
+                .replace(/[۰-۹]/g, digit => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
+                .replace(/[\s()+.-]/g, '');
+            if (number.startsWith('00')) number = number.slice(2);
+            if (/^01[0125]\d{8}$/.test(number)) number = '2' + number;
+            if (/^2001[0125]\d{8}$/.test(number)) number = '20' + number.slice(3);
+            if (!/^[1-9]\d{7,14}$/.test(number)) return '';
+            return number;
+        }
         const SUPABASE_URL = 'https://icmvrjmkcyjuoxekvvfw.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_M05JYZ9LKlIfeDjuCJqzxQ_Ay6EbRKj';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -420,13 +455,27 @@
         const badWords = ['كسم', 'خرا', 'زبالة', 'حيوان', 'غبي', 'عبيط', 'كلب', 'عرص', 'شرموط', 'قحب', 'خول', 'لبوة', 'طيز', 'كس', 'نيك', 'متناك', 'شرموطة', 'fuck', 'shit', 'bitch', 'asshole', 'pussy'];
         function censorText(text) { if (!text) return ''; let clean = text; badWords.forEach(word => { const regex = new RegExp(word, 'gi'); clean = clean.replace(regex, '***'); }); return clean; }
 
-        function enableSound() {
-            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-            document.getElementById('enable-sound-btn').innerHTML = '<i class="fa-solid fa-check mr-2"></i> الصوت مفعل';
-            document.getElementById('enable-sound-btn').classList.remove('bg-brandGold');
-            document.getElementById('enable-sound-btn').classList.add('bg-green-600', 'text-white');
-            playNotificationSound(); 
+        async function enableSound() {
+            try {
+                const AudioContextType = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextType) throw new Error('المتصفح لا يدعم التنبيه الصوتي');
+                if (!audioCtx) audioCtx = new AudioContextType();
+                if (audioCtx.state === 'suspended') await audioCtx.resume();
+                if (audioCtx.state !== 'running') throw new Error('المتصفح منع تشغيل الصوت. حاول تاني');
+                const btn = document.getElementById('enable-sound-btn');
+                btn.textContent = 'الصوت مفعل أثناء فتح اللوحة';
+                btn.classList.remove('bg-brandGold');
+                btn.classList.add('bg-green-600', 'text-white');
+                playNotificationSound();
+                if ('Notification' in window && Notification.permission === 'default') {
+                    try { await Notification.requestPermission(); } catch (_) { /* Sound remains available. */ }
+                }
+            } catch (error) { showAdminToast(error.message); }
+        }
+        function showOrderNotification() {
+            if (!('Notification' in window) || Notification.permission !== 'granted') return;
+            try { new Notification('طلب جديد من SELECT', { body: 'لقد تم استلام طلب جديد.' }); }
+            catch (error) { console.info('System notifications unavailable; dashboard alert remains active.'); }
         }
 
         function playNotificationSound() {
@@ -470,13 +519,21 @@
 
         window.addEventListener('focus', () => { stopFlashingTitle(); });
 
-        function toggleSidebar() {
+        function setSidebarOpen(open) {
             const sidebar = document.getElementById('admin-sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-            if (sidebar.classList.contains('translate-x-full')) { sidebar.classList.remove('translate-x-full'); sidebar.classList.add('translate-x-0'); overlay.classList.remove('hidden'); }
-            else { sidebar.classList.add('translate-x-full'); sidebar.classList.remove('translate-x-0'); overlay.classList.add('hidden'); }
+            sidebar.classList.toggle('translate-x-full', !open);
+            sidebar.classList.toggle('translate-x-0', open);
+            document.getElementById('sidebar-overlay').classList.toggle('hidden', !open);
+            document.getElementById('sidebar-toggle').setAttribute('aria-expanded', String(open));
+            sidebar.inert = window.innerWidth < 768 && !open;
         }
-        function closeSidebarOnMobile() { if (window.innerWidth < 768) toggleSidebar(); }
+        function toggleSidebar() {
+            setSidebarOpen(document.getElementById('admin-sidebar').classList.contains('translate-x-full'));
+        }
+        function closeSidebarOnMobile() { if (window.innerWidth < 768) setSidebarOpen(false); }
+        window.addEventListener('resize', () => setSidebarOpen(false));
+        window.addEventListener('keydown', event => { if (event.key === 'Escape') closeSidebarOnMobile(); });
+        setSidebarOpen(false);
 
         document.getElementById('login-form').addEventListener('submit', async (e) => { e.preventDefault(); const { error } = await supabaseClient.auth.signInWithPassword({ email: document.getElementById('email').value, password: document.getElementById('password').value }); if (error) document.getElementById('login-error').classList.remove('hidden'); else checkSession(); });
         
@@ -485,14 +542,15 @@
             if (session) { 
                 document.getElementById('login-screen').classList.add('hidden'); 
                 document.getElementById('dashboard').classList.remove('hidden'); 
-                await loadData(); 
+                await loadData();
+                if (typeof prepareAdminPush === 'function') prepareAdminPush();
                 isFirstLoad = false;
             } else { 
                 document.getElementById('login-screen').classList.remove('hidden'); 
                 document.getElementById('dashboard').classList.add('hidden'); 
             } 
         }
-        function logout() { supabaseClient.auth.signOut(); checkSession(); }
+        async function logout() { await checkedQuery(supabaseClient.auth.signOut()); await checkSession(); }
         
         function switchView(viewId, btnElement) { 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); 
@@ -574,7 +632,7 @@
             const salesCanvas = document.getElementById('salesChart');
             const visitsCanvas = document.getElementById('visitsChart');
 
-            if(salesCanvas && visitsCanvas) {
+            if(salesCanvas) {
                 const last7Days = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toISOString().split('T')[0]; }).reverse();
                 const salesData = last7Days.map(date => { const dayOrders = orders?.filter(o => o.created_at.startsWith(date)); return dayOrders?.reduce((sum, o) => sum + Number(o.total_price), 0) || 0; });
                 const { data: visits } = await supabaseClient.from('visits').select('visited_at');
@@ -584,7 +642,7 @@
                 salesChartInstance = new Chart(salesCanvas.getContext('2d'), { type: 'line', data: { labels: last7Days.map(d => d.split('-').slice(1).reverse().join('/')), datasets: [{ label: 'المبيعات', data: salesData, borderColor: '#111111', backgroundColor: 'rgba(17, 17, 17, 0.05)', borderWidth: 2, fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
                 
                 if(visitsChartInstance) visitsChartInstance.destroy();
-                visitsChartInstance = new Chart(visitsCanvas.getContext('2d'), { type: 'bar', data: { labels: last7Days.map(d => d.split('-').slice(1).reverse().join('/')), datasets: [{ label: 'الزيارات', data: visitsData, backgroundColor: '#E5E5E5', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+                if(visitsCanvas) visitsChartInstance = new Chart(visitsCanvas.getContext('2d'), { type: 'bar', data: { labels: last7Days.map(d => d.split('-').slice(1).reverse().join('/')), datasets: [{ label: 'الزيارات', data: visitsData, backgroundColor: '#E5E5E5', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
         }
 
@@ -649,10 +707,10 @@
             document.getElementById('order-modal').classList.remove('hidden'); document.getElementById('order-modal').classList.add('flex');
         }
         
-        async function saveTracking() { const company = document.getElementById('track-company').value; const number = document.getElementById('track-number').value; await supabaseClient.from('orders').update({ shipping_company: company, tracking_number: number }).eq('id', currentOrderId.id); alert('تم الحفظ!'); document.getElementById('order-modal').classList.add('hidden'); document.getElementById('order-modal').classList.remove('flex'); loadOrders(); }
+        async function saveTracking() { const company = document.getElementById('track-company').value; const number = document.getElementById('track-number').value; await checkedQuery(supabaseClient.from('orders').update({ shipping_company: company, tracking_number: number }).eq('id', currentOrderId.id)); alert('تم الحفظ!'); document.getElementById('order-modal').classList.add('hidden'); document.getElementById('order-modal').classList.remove('flex'); loadOrders(); }
         
         async function updateOrderStatus(id, status) { 
-            await supabaseClient.from('orders').update({ status }).eq('id', id); 
+            await checkedQuery(supabaseClient.from('orders').update({ status }).eq('id', id));
             loadOrders(); 
             loadStatsAndCharts(); 
         }
@@ -740,7 +798,7 @@
         }
 
         async function loadProducts() {
-            const { data: products } = await supabaseClient.from('products').select('*'); const list = document.getElementById('products-list'); list.innerHTML = '';
+            const { data: products } = await supabaseClient.from('products').select('*'); allProductsList = products || []; const list = document.getElementById('products-list'); list.innerHTML = '';
             if(!products || products.length === 0) { list.innerHTML = '<p class="text-gray-500">لا يوجد منتجات.</p>'; return; }
             products.forEach(p => {
                 const stockBadge = p.stock <= 0 ? '<span class="text-red-500 font-bold text-[10px] bg-red-50 px-2 py-1 block w-fit mt-1 rounded">نفذت</span>' : `<span class="text-green-600 font-bold text-[10px] bg-green-50 px-2 py-1 block w-fit mt-1 rounded">متوفر: ${p.stock}</span>`;
@@ -757,20 +815,28 @@
             let variantsJson = [];
             if(variantsStr) { try { variantsJson = JSON.parse(variantsStr); } catch(err) { alert('صيغة الأحجام غير صحيحة، تأكد من كتابتها بشكل JSON صحيح'); btn.innerText = 'حفظ'; btn.disabled = false; return; } }
 
+            if (!Array.isArray(variantsJson) || variantsJson.some(variant => !variant || typeof variant !== 'object' || typeof variant.size !== 'string' || !variant.size.trim() || !Number.isFinite(Number(variant.price)) || Number(variant.price) < 0)) {
+                throw new Error('الأحجام لازم تكون قائمة فيها size وسعر price صحيح لكل حجم');
+            }
+            const price = Number(document.getElementById('prod-price').value);
+            const stock = Number(document.getElementById('prod-stock').value);
+            if (!Number.isFinite(price) || price < 0 || !Number.isInteger(stock) || stock < 0) throw new Error('السعر والمخزون لازم يكونوا أرقام صحيحة غير سالبة');
             if (fileInput.files.length > 0) { let file = fileInput.files[0]; try { file = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 1024, useWebWorker: true }); } catch (error) {} const fileName = `${Date.now()}-${file.name.replace(/\s/g, '_')}`; const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file); if (uploadError) { alert('خطأ في الرفع'); btn.innerText = 'حفظ'; btn.disabled = false; return; } const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName); imageUrl = urlData.publicUrl; }
             if(!imageUrl) { alert('اختر صورة'); btn.innerText = 'حفظ'; btn.disabled = false; return; }
             
-            const data = { name: censorText(document.getElementById('prod-name').value), brand: censorText(document.getElementById('prod-brand').value), category: document.getElementById('prod-category').value, price: parseFloat(document.getElementById('prod-price').value), size: document.getElementById('prod-size').value, image_url: imageUrl, notes: censorText(document.getElementById('prod-notes').value), stock: parseInt(document.getElementById('prod-stock').value), variants: variantsJson };
-            if (id) await supabaseClient.from('products').update(data).eq('id', id); else await supabaseClient.from('products').insert([data]);
+            const data = { name: censorText(document.getElementById('prod-name').value), brand: censorText(document.getElementById('prod-brand').value), category: document.getElementById('prod-category').value, price: price, size: document.getElementById('prod-size').value, image_url: imageUrl, notes: censorText(document.getElementById('prod-notes').value), stock: stock, variants: variantsJson };
+            if (id) await checkedQuery(supabaseClient.from('products').update(data).eq('id', id)); else await checkedQuery(supabaseClient.from('products').insert([data]));
             document.getElementById('product-modal').classList.add('hidden'); document.getElementById('product-modal').classList.remove('flex'); loadProducts(); loadStatsAndCharts(); btn.innerText = 'حفظ'; btn.disabled = false;
         }
         function editProduct(id) {
-            const p = allProductsList.find(prod => prod.id === id);
+            const p = allProductsList.find(prod => String(prod.id) === String(id));
+            if (!p) { alert('المنتج غير موجود. حدّث القائمة وحاول تاني.'); return; }
+            document.getElementById('prod-image-file').value = '';
             document.getElementById('prod-id').value = p.id; document.getElementById('prod-name').value = p.name; document.getElementById('prod-brand').value = p.brand; document.getElementById('prod-category').value = p.category; document.getElementById('prod-price').value = p.price; document.getElementById('prod-size').value = p.size; document.getElementById('prod-image-url').value = p.image_url; document.getElementById('prod-notes').value = p.notes; document.getElementById('prod-stock').value = p.stock;
             document.getElementById('prod-variants').value = p.variants ? JSON.stringify(p.variants) : '';
             document.getElementById('product-modal').classList.remove('hidden'); document.getElementById('product-modal').classList.add('flex');
         }
-        async function deleteProduct(id) { if(confirm('حذف المنتج؟')) { await supabaseClient.from('products').delete().eq('id', id); loadProducts(); loadStatsAndCharts(); } }
+        async function deleteProduct(id) { if(confirm('حذف المنتج؟')) { await checkedQuery(supabaseClient.from('products').delete().eq('id', id)); loadProducts(); loadStatsAndCharts(); } }
 
         async function loadBundles() {
             const { data } = await supabaseClient.from('bundles').select('*').order('created_at', { ascending: false });
@@ -801,14 +867,15 @@
                 try { file = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 1024, useWebWorker: true }); } catch (error) {}
                 const fileName = `bundle-${Date.now()}-${file.name.replace(/\s/g, '_')}`;
                 const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file);
+                if (uploadError) throw uploadError;
                 if (!uploadError) { const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName); imageUrl = urlData.publicUrl; }
             }
             const bundleData = { name: censorText(document.getElementById('b-name').value), original_price: parseFloat(document.getElementById('b-original').value), bundle_price: parseFloat(document.getElementById('b-price').value), items_count: parseInt(document.getElementById('b-count').value), image_url: imageUrl, active: true };
-            const { error } = await supabaseClient.from('bundles').insert([bundleData]);
+            const { error } = await checkedQuery(supabaseClient.from('bundles').insert([bundleData]));
             if(error) { alert('حدث خطأ!'); console.error(error); } else { document.getElementById('bundle-form').reset(); loadBundles(); }
             btn.innerText = 'إضافة الباقة'; btn.disabled = false;
         }
-        async function deleteBundle(id) { if(confirm('حذف الباقة؟')) { await supabaseClient.from('bundles').delete().eq('id', id); loadBundles(); } }
+        async function deleteBundle(id) { if(confirm('حذف الباقة؟')) { await checkedQuery(supabaseClient.from('bundles').delete().eq('id', id)); loadBundles(); } }
 
         async function loadReviews() {
             const { data } = await supabaseClient.from('reviews').select('*, products(name)').order('created_at', { ascending: false }); const list = document.getElementById('reviews-list-admin'); list.innerHTML = '';
@@ -818,8 +885,8 @@
                 list.innerHTML += `<div class="bg-white p-4 shadow-sm border ${isPending ? 'border-black' : 'border-gray-200'} flex flex-col md:flex-row justify-between items-start md:items-center gap-4 rounded-lg"><div><p class="font-bold text-black text-sm">${censorText(r.customer_name)} <span class="text-xs text-gray-500 font-normal">(على: ${censorText(r.products?.name) || 'محذوف'})</span></p><p class="text-black text-xs mt-1">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</p><p class="text-gray-600 text-xs mt-2">${censorText(r.comment)}</p><span class="text-[10px] font-bold mt-2 inline-block px-2 py-1 border ${isPending ? 'border-black text-black' : 'border-gray-300 text-gray-500'} rounded">${isPending ? 'قيد المراجعة' : 'تم الموافقة'}</span></div><div class="flex gap-2 w-full md:w-auto">${isPending ? `<button onclick="approveReview(${r.id})" class="flex-1 md:flex-none bg-black text-white px-3 py-2 md:py-1.5 text-xs font-bold hover:bg-gray-800 rounded">موافقة</button>` : ''}<button onclick="deleteReview(${r.id})" class="flex-1 md:flex-none bg-red-50 text-red-600 px-3 py-2 md:py-1.5 text-xs font-bold hover:bg-red-100 rounded">حذف</button></div></div>`;
             });
         }
-        async function approveReview(id) { await supabaseClient.from('reviews').update({ status: 'approved' }).eq('id', id); loadReviews(); }
-        async function deleteReview(id) { if(confirm('حذف التقييم؟')) { await supabaseClient.from('reviews').delete().eq('id', id); loadReviews(); } }
+        async function approveReview(id) { await checkedQuery(supabaseClient.from('reviews').update({ status: 'approved' }).eq('id', id)); loadReviews(); }
+        async function deleteReview(id) { if(confirm('حذف التقييم؟')) { await checkedQuery(supabaseClient.from('reviews').delete().eq('id', id)); loadReviews(); } }
 
         async function loadCoupons() {
             const { data } = await supabaseClient.from('coupons').select('*').order('created_at', { ascending: false }); 
@@ -842,20 +909,20 @@
             const code = document.getElementById('c-code').value.toUpperCase(); 
             const percent = parseInt(document.getElementById('c-percent').value); 
             const maxUses = parseInt(document.getElementById('c-max-uses').value) || 5;
-            const { error } = await supabaseClient.from('coupons').insert([{ code, discount_percent: percent, max_uses: maxUses, used_count: 0, active: true }]); 
+            const { error } = await checkedQuery(supabaseClient.from('coupons').insert([{ code, discount_percent: percent, max_uses: maxUses, used_count: 0, active: true }]));
             if(error) alert('موجود!'); 
             else { document.getElementById('coupon-form').reset(); loadCoupons(); } 
         }
-        async function deleteCoupon(id) { if(confirm('حذف الكوبون؟')) { await supabaseClient.from('coupons').delete().eq('id', id); loadCoupons(); } }
+        async function deleteCoupon(id) { if(confirm('حذف الكوبون؟')) { await checkedQuery(supabaseClient.from('coupons').delete().eq('id', id)); loadCoupons(); } }
 
         async function loadSettings() {
             const { data } = await supabaseClient.from('settings').select('*').eq('id', 1).single();
             if (data) { 
                 // الشحن
-                document.getElementById('set-ship-cairo').value = data.shipping_cairo || 60;
-                document.getElementById('set-ship-delta').value = data.shipping_delta || 80;
-                document.getElementById('set-ship-upper').value = data.shipping_upper || 90;
-                document.getElementById('set-free-ship').value = data.free_shipping_threshold || 1500;
+                document.getElementById('set-ship-cairo').value = data.shipping_cairo ?? 60;
+                document.getElementById('set-ship-delta').value = data.shipping_delta ?? 80;
+                document.getElementById('set-ship-upper').value = data.shipping_upper ?? 90;
+                document.getElementById('set-free-ship').value = data.free_shipping_threshold ?? 1500;
                 document.getElementById('set-enable-free-shipping').checked = data.enable_free_shipping === true; // الشحن المجاني
                 document.getElementById('set-city-ph').value = data.city_placeholder_text || 'اختر المحافظة';
                 document.getElementById('set-address-ph').value = data.address_placeholder_text || 'الحي، الشارع، رقم العمارة...';
@@ -930,7 +997,7 @@
                 document.getElementById('set-lbl-address').value = data.address_label || 'العنوان';
                 document.getElementById('set-confirm-btn').value = data.confirm_order_btn || 'تأكيد الطلب';
 
-                document.getElementById('set-whatsapp').value = data.whatsapp_number || ''; 
+                document.getElementById('set-whatsapp').value = normalizeWhatsAppNumber(data.whatsapp_number);
                 document.getElementById('set-facebook').value = data.facebook_url || ''; 
                 document.getElementById('set-instagram').value = data.instagram_url || ''; 
                 document.getElementById('set-tiktok').value = data.tiktok_url || ''; 
@@ -945,6 +1012,9 @@
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]'); const oldText = btn.innerText; btn.innerText = 'جاري الحفظ...'; btn.disabled = true;
             
+            const whatsappInput = document.getElementById('set-whatsapp');
+            const whatsappNumber = normalizeWhatsAppNumber(whatsappInput.value);
+            if (whatsappInput.value.trim() && !whatsappNumber) throw new Error('اكتب رقم واتساب صحيح بكود الدولة، مثال: 201012345678');
             let logoUrl = document.getElementById('set-logo-url').value;
             const logoFileInput = document.getElementById('set-logo-file');
             if (logoFileInput.files.length > 0) {
@@ -952,6 +1022,7 @@
                 try { file = await imageCompression(file, { maxSizeMB: 0.1, maxWidthOrHeight: 400, useWebWorker: true }); } catch (error) {}
                 const fileName = `logo-${Date.now()}-${file.name.replace(/\s/g, '_')}`;
                 const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file);
+                if (uploadError) throw uploadError;
                 if (!uploadError) { const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName); logoUrl = urlData.publicUrl; }
             }
             let heroImageUrl = document.getElementById('set-image-url').value;
@@ -961,6 +1032,7 @@
                 try { file = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 1920, useWebWorker: true }); } catch (error) {}
                 const fileName = `hero-${Date.now()}-${file.name.replace(/\s/g, '_')}`;
                 const { error: uploadError } = await supabaseClient.storage.from('product-images').upload(fileName, file);
+                if (uploadError) throw uploadError;
                 if (!uploadError) { const { data: urlData } = supabaseClient.storage.from('product-images').getPublicUrl(fileName); heroImageUrl = urlData.publicUrl; }
             }
 
@@ -1032,14 +1104,14 @@
                 city_label: censorText(document.getElementById('set-lbl-city').value), 
                 address_label: censorText(document.getElementById('set-lbl-address').value), 
                 confirm_order_btn: censorText(document.getElementById('set-confirm-btn').value),
-                whatsapp_number: document.getElementById('set-whatsapp').value, 
+                whatsapp_number: whatsappNumber,
                 facebook_url: document.getElementById('set-facebook').value, 
                 instagram_url: document.getElementById('set-instagram').value, 
                 tiktok_url: document.getElementById('set-tiktok').value 
             };
             
-            const { error } = await supabaseClient.from('settings').update(data).eq('id', 1);
-            if(error) alert('خطأ! ' + error.message); else { btn.innerHTML = 'تم الحفظ!'; loadSettings(); setTimeout(() => { btn.innerText = oldText; btn.disabled = false; }, 2000); }
+            const { error } = await checkedQuery(supabaseClient.from('settings').update(data).eq('id', 1));
+            showAdminToast('تم حفظ الإعدادات'); await loadSettings();
         }
 
         function generateSitemap() {
@@ -1057,10 +1129,10 @@
             link.click();
         }
 
-        async function deleteAllData() {
+        async function deleteAllData(event) {
             if(!confirm('⚠️ تحذير: سيتم مسح جميع البيانات. هل أنت متأكد؟')) return;
             const btn = event.target; btn.innerText = 'جاري المسح...'; btn.disabled = true;
-            await supabaseClient.from('orders').delete().neq('id', 0); await supabaseClient.from('reviews').delete().neq('id', 0); await supabaseClient.from('visits').delete().neq('id', 0); await supabaseClient.from('coupons').delete().neq('id', 0); await supabaseClient.from('products').delete().neq('id', 0); await supabaseClient.from('bundles').delete().neq('id', 0);
+            await checkedQuery(supabaseClient.from('orders').delete().neq('id', 0)); await checkedQuery(supabaseClient.from('reviews').delete().neq('id', 0)); await checkedQuery(supabaseClient.from('visits').delete().neq('id', 0)); await checkedQuery(supabaseClient.from('coupons').delete().neq('id', 0)); await checkedQuery(supabaseClient.from('products').delete().neq('id', 0)); await checkedQuery(supabaseClient.from('bundles').delete().neq('id', 0));
             alert('تم مسح جميع البيانات بنجاح.'); loadData(); btn.innerHTML = '<i class="fa-solid fa-trash mr-2"></i> مسح كل البيانات'; btn.disabled = false;
         }
 
@@ -1077,9 +1149,7 @@
                     showAdminToast('🔔 لديك طلب جديد!');
                     startFlashingTitle();
 
-                    if (Notification.permission === "granted") {
-                        new Notification("طلب جديد من SELECT", { body: "لقد تم استلام طلب جديد." });
-                    }
+                    showOrderNotification();
                 }
                 loadOrders(); 
                 loadStatsAndCharts(); 
@@ -1091,9 +1161,33 @@
             .on('postgres_changes', { event: '*', schema: 'public', table: 'bundles' }, () => { loadBundles(); })
             .subscribe();
 
-        if ("Notification" in window) { Notification.requestPermission(); }
+        // Ask for notification permission only after the admin taps the sound button.
+
+        async function checkedQuery(query) {
+            const result = await query;
+            if (result.error) throw new Error(result.error.message || 'تعذر حفظ التغييرات');
+            return result;
+        }
+        // Restore controls even on network errors. Never close a form on failed writes.
+        const guardedActions = { saveProduct, saveBundle, saveSettings, saveCoupon, saveTracking,
+            updateOrderStatus, deleteProduct, deleteBundle, approveReview, deleteReview, deleteCoupon, deleteAllData, logout };
+        for (const [name, action] of Object.entries(guardedActions)) {
+            window[name] = async function (...args) {
+                const formIds = {saveProduct: 'product-form', saveBundle: 'bundle-form', saveCoupon: 'coupon-form'};
+                const scope = args[0]?.target?.closest?.('form') || document.getElementById(formIds[name]);
+                const buttons = Array.from(scope ? scope.querySelectorAll('button[type=submit]') : []).map(button => ({button, html: button.innerHTML, disabled: button.disabled}));
+                try { return await action(...args); }
+                catch (error) {
+                    console.error(error);
+                    alert('تعذر تنفيذ العملية: ' + error.message + (name === 'deleteAllData' ? ' قد يكون جزء من البيانات اتحذف. حدّث الصفحة قبل المحاولة.' : ''));
+                    if (name === 'updateOrderStatus') await loadOrders();
+                }
+                finally { buttons.forEach(({button, html, disabled}) => { button.innerHTML = html; button.disabled = disabled; }); }
+            };
+        }
 
         checkSession();
     </script>
+    <script src="./admin-push.js"></script>
 </body>
 </html>
